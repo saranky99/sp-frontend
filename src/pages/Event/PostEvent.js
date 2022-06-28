@@ -5,8 +5,16 @@ import { Row, Col, Form } from "antd";
 import { message } from "antd";
 
 function PostEvent({ history }) {
+  const disablePastDate = () => {
+    const today = new Date();
+    const dd = String(today.getDate() + 1).padStart(2, "0");
+    const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    const yyyy = today.getFullYear();
+    return yyyy + "-" + mm + "-" + dd;
+  };
   const [title, setTitle] = useState("");
   const [duedate, setDate] = useState("");
+  const [finaldate, setFinaldate] = useState("");
   const [time, setTime] = useState("");
   const [price, setPrice] = useState("");
   const [photo, setPhoto] = useState("");
@@ -42,6 +50,7 @@ function PostEvent({ history }) {
       body: JSON.stringify({
         title,
         duedate,
+        finaldate,
         time,
         price,
         category,
@@ -55,6 +64,7 @@ function PostEvent({ history }) {
         console.log(data);
         if (data.msg) {
           message.success(data.msg);
+          history.push("/postedevent");
         } else {
           message.error(data.error);
         }
@@ -68,6 +78,7 @@ function PostEvent({ history }) {
     title,
     photo,
     duedate,
+    finaldate,
     time,
     fullDescription,
     breifDescription,
@@ -98,45 +109,55 @@ function PostEvent({ history }) {
             </Col>
 
             <Col lg={8} sm={24}>
-              <label className={styles.select_label} for="role">
-                Choose your the date
-              </label>
+              <label className={styles.select_label}>Event date</label>
               <input
                 value={duedate}
                 name="date"
                 type="date"
+                min={disablePastDate()}
                 className={styles.input_input}
                 onChange={(e) => setDate(e.target.value)}
               />
             </Col>
 
             <Col lg={8} sm={24}>
-              <label className={styles.select_label} for="role">
+              <label className={styles.select_label}>Register before</label>
+              <input
+                value={finaldate}
+                name="date"
+                type="date"
+                min={disablePastDate()}
+                className={styles.input_input}
+                onChange={(e) => setFinaldate(e.target.value)}
+              />
+            </Col>
+
+            <Col lg={8} sm={24}>
+              <label className={styles.select_label}>
                 Choose your the time
               </label>
               <input
                 name="time"
                 value={time}
-                type="text"
+                type="time"
                 className={styles.input_input}
                 onChange={(e) => setTime(e.target.value)}
               />
             </Col>
 
             <Col lg={8} sm={24}>
-              <label className={styles.select_label} for="role">
-                Price of the Event
-              </label>
+              <label className={styles.select_label}>Price of the Event</label>
               <input
                 name="price"
+                placeholder="RS 1000"
                 value={price}
-                type="text"
+                data-type="currency"
                 className={styles.input_input}
                 onChange={(e) => setPrice(e.target.value)}
               />
             </Col>
             <Col lg={8} sm={24}>
-              <label className={styles.select_label} for="role">
+              <label className={styles.select_label}>
                 Choose Event Categories
               </label>
               <select
@@ -161,9 +182,6 @@ function PostEvent({ history }) {
                 onChange={(e) => setPhoto(e.target.files[0])}
               />
             </Col>
-          </Row>
-
-          <Row gutter={16}>
             <Col lg={24} sm={24}>
               <label className={styles.select_label} for="role">
                 Type your Brief Describation
@@ -178,9 +196,11 @@ function PostEvent({ history }) {
                 rows="9"
               ></textarea>
             </Col>
+          </Row>
 
+          <Row gutter={16}>
             <Col lg={24} sm={24}>
-              <label className={styles.select_label} for="role">
+              <label className={styles.select_label}>
                 Type your Full Describation
               </label>
 

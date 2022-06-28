@@ -3,54 +3,70 @@ import styles from "./PostEvent.module.css";
 import CompanyDefaultLayout from "../../Layout/CompanyDefaultLayout";
 import { Row, Col, Form } from "antd";
 import { message } from "antd";
-import axios from "axios";
-function EditEvent({
-  match,
-  title1,
-  duedate1,
-  time1,
-  price1,
-  photo1,
-  category1,
-  breifDescription1,
-  fullDescription1,
-  id,
-}) {
-  const [title, setTitle] = useState(title1);
-  const [duedate, setDate] = useState(duedate1);
-  const [time, setTime] = useState(time1);
-  const [price, setPrice] = useState(price1);
-  const [photo, setPhoto] = useState(photo1);
-  const [category, setCategories] = useState(category1);
-  const [breifDescription, setBreifDescription] = useState(breifDescription1);
-  const [fullDescription, setFullDescription] = useState(fullDescription1);
-  const [url, setUrl] = useState("");
-  const [update, setUpdate] = useState(false);
 
-  const fetchUpdate = () => {
-    const data = {
-      title: title,
-      duedate: duedate,
-      time: time,
-      price: price,
-      photo: photo,
-      category: category,
-      breifDescription: breifDescription,
-      fullDescription: fullDescription,
-    };
-    axios
-      .put(`http://localhost:5000/api/event/editevent/${id}`, data)
-      .then((res) => {
-        window.location.reload();
+function EditEvent({ match, history }) {
+  const idid = match.params.id;
+  console.log(idid);
+
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetch(`/api/event/singleEvent/${idid}`, {})
+      .then((response) => {
+        return response.json();
       })
-      .catch((err) => {
-        console.log(err);
+      .then((singledata) => {
+        const singleevent = singledata;
+        setData(singleevent);
+      });
+  }, []);
+
+  console.log(data);
+
+  const [title, setTitle] = useState();
+  const [duedate, setDate] = useState();
+  const [time, setTime] = useState();
+  const [price, setPrice] = useState();
+  const [photo, setPhoto] = useState();
+  const [category, setCategories] = useState();
+  const [breifDescription, setBreifDescription] = useState();
+  const [fullDescription, setFullDescription] = useState();
+  const [finaldate, setFinaldate] = useState("");
+  const fetchUpdate = () => {
+    fetch(`/api/event/editevent/${idid}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        _id: idid,
+        title: title,
+        duedate: duedate,
+        time: time,
+        price: price,
+        category: category,
+        photo: photo,
+        breifDescription: breifDescription,
+        fullDescription: fullDescription,
+        finaldate: finaldate,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        message.success("Event Edited Successfully");
+        history.push("/postedevent");
       });
   };
+
+  function handleChange(e) {
+    console.log("new value", e.target.value);
+    setTitle(e.target.value);
+    setTime(e.target.value);
+  }
   return (
     <div>
       <CompanyDefaultLayout>
-        {update && (
+        {
           <Form layout="vertical" method="post" className={styles.form_form}>
             <h2 className={styles.heading}>Edit your post</h2>
 
@@ -61,11 +77,11 @@ function EditEvent({
                     Title of the Event
                   </label>
                   <input
-                    value={title}
+                    defaultValue={data.title}
                     name="title"
                     type="text"
                     className={styles.input_input}
-                    onChange={(e) => setTitle(e.target.value)}
+                    onChange={handleChange}
                   />
                 </div>
               </Col>
@@ -75,11 +91,21 @@ function EditEvent({
                   Choose your the date
                 </label>
                 <input
-                  value={duedate}
+                  defaultValue={data.duedate}
                   name="date"
                   type="date"
                   className={styles.input_input}
                   onChange={(e) => setDate(e.target.value)}
+                />
+              </Col>
+              <Col lg={8} sm={24}>
+                <label className={styles.select_label}>Register before</label>
+                <input
+                  value={data.finaldate}
+                  name="date"
+                  type="date"
+                  className={styles.input_input}
+                  onChange={(e) => setFinaldate(e.target.value)}
                 />
               </Col>
 
@@ -89,10 +115,10 @@ function EditEvent({
                 </label>
                 <input
                   name="time"
-                  value={time}
-                  type="text"
+                  defaultValue={data.time}
+                  type="time"
                   className={styles.input_input}
-                  onChange={(e) => setTime(e.target.value)}
+                  onChange={handleChange}
                 />
               </Col>
 
@@ -102,7 +128,7 @@ function EditEvent({
                 </label>
                 <input
                   name="price"
-                  value={price}
+                  defaultValue={data.price}
                   type="text"
                   className={styles.input_input}
                   onChange={(e) => setPrice(e.target.value)}
@@ -115,7 +141,7 @@ function EditEvent({
                 <select
                   className={styles.select_select}
                   onChange={(e) => setCategories(e.target.value)}
-                  value={category}
+                  defaultValue={data.category}
                 >
                   <option>Web Development </option>
                   <option>Mobile Development</option>
@@ -144,7 +170,7 @@ function EditEvent({
 
                 <textarea
                   name="brief"
-                  value={breifDescription}
+                  defaultValue={data.breifDescription}
                   type="text"
                   className={styles.text_area}
                   onChange={(e) => setBreifDescription(e.target.value)}
@@ -159,7 +185,7 @@ function EditEvent({
 
                 <textarea
                   name="full"
-                  value={fullDescription}
+                  defaultValue={data.fullDescription}
                   type="text"
                   className={styles.text_area}
                   rows="4"
@@ -168,14 +194,11 @@ function EditEvent({
               </Col>
             </Row>
 
-            <button
-              className={styles.button_button}
-              onClick={() => setUpdate(true)}
-            >
+            <button className={styles.button_button} onClick={fetchUpdate}>
               Update
             </button>
           </Form>
-        )}
+        }
       </CompanyDefaultLayout>
     </div>
   );

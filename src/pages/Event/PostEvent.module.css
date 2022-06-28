@@ -1,5 +1,14 @@
+.form_form{
+  background-color: #deecf5 !important;
+  border-radius: 20px !important;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2) !important;
+  transition: 0.3s !important;
+  font-family:  monospace !important;
+  color: #fff !important;
+}
+
 .input_input {
-  font-family: "Montserrat", sans-serif;
+  font-family:  monospace !important;
   outline: none;
   background: none;
   width: 100%;
@@ -9,7 +18,8 @@
   letter-spacing: 0.5px;
   margin-top: 10px;
   border: 2px solid white;
-  border: 2px solid rgb(41, 14, 102);
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 10px;
 }
 
 .button_button {
@@ -23,7 +33,7 @@
   padding: 10px 20px;
   cursor: pointer;
   transition: background-color 0.3s;
-  margin-top: 20px;
+  border-radius: 10px;
 }
 
 .select_select {
@@ -37,6 +47,9 @@
   letter-spacing: 0.5px;
   margin-top: 10px;
   border: 2px solid rgb(41, 14, 102);
+  font-family:  monospace !important;
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 10px;
 }
 
 .text_area {
@@ -49,12 +62,16 @@
   padding: 0 4px;
   letter-spacing: 0.5px;
   margin-top: 10px;
-  border: 2px solid rgb(41, 14, 102);
+  font-family:  monospace !important;
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 10px;
+  
 }
 
 .select_label {
   color: #02191d;
   font-size: 15px !important;
+  font-family:  monospace !important;
 }
 
 .form_form {
@@ -66,8 +83,10 @@
 }
 
 .heading {
-  color: white;
+  color: #1890FF;
   align-items: center;
   text-align: center;
   font-size: 35px;
+  font-weight: bold;
+  font-family:  monospace !important;
 }

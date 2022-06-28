@@ -61,3 +61,54 @@
     background-color: #f2f2f2;
     padding: 20px;
 }
+
+.bookcardconatiner{
+    display: flex;
+}
+
+.bookcard{
+    width: 35%;
+    height: 300px;
+   border: 2px solid #092d6f;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    margin: 40px;
+}
+.bookcard h3{
+    margin: 20px;
+    color: #000000;
+}
+.bookcard h2{
+    margin: 20px;
+    color: #1890FF;
+    font-weight: bold;
+}
+
+.bookcard:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    transform: scale(3px);
+  }
+
+  .btnbtn{
+    float: right;
+   border-radius: 20px;
+   background-color: #1890FF;
+   color: white;
+   cursor: pointer;
+   transition-duration: 0.4s;
+  }
+
+  .btnbtn:hover{
+    background-color: white;
+    color: black;
+    border: 2px solid #1890FF;
+  }
+
+  .stus{
+    background-color: #45a049;
+    border: 1px solid green;
+    width: 40px;
+    border-radius: 20px;
+    color: white;
+  }

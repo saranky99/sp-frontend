@@ -8,8 +8,18 @@ table {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
+    font-family: monospace;
+ 
   }
   
   tr:nth-child(even) {
     background-color: #dddddd;
+  }
+
+  th{
+    background-color: #1890FF;
+    color: #ffffff;
+  }
+  h1{
+    font-size: 20px;
   }

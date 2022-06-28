@@ -4,7 +4,11 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 const EventCard = () => {
   const [data, setData] = useState([]);
-
+  const [search, setSearch] = useState("");
+  const [duplicate, setDuplicate] = useState([]);
+  const [all, setAll] = useState("all");
+  const [type, setType] = useState("");
+  const [eventDate, seteEventDate] = useState("");
   useEffect(() => {
     fetch("/api/event/getallevents")
       .then((response) => {
@@ -12,42 +16,101 @@ const EventCard = () => {
       })
       .then((data) => {
         console.log(data);
-        const getAllevents = data;
-        setData(getAllevents);
+        setData(data);
+        setDuplicate(data);
       });
   }, []);
 
+  console.log(duplicate);
+
+  function fillterBySerach() {
+    const temp = data.filter((event) => event.title.includes(search));
+    setData(temp);
+  }
+
+  function fillterByDate() {
+    const temp = data.filter((event) => event.duedate.includes(eventDate));
+    setData(temp);
+  }
+
+  function FillterByCat(e) {
+    const temp = data.filter((event) => event.category === e);
+    setData(temp);
+  }
   return (
     <>
+      <div className="filltering">
+        <input
+          type="date"
+          className="input"
+          value={eventDate}
+          onChange={(e) => {
+            seteEventDate(e.target.value);
+          }}
+          onKeyUp={fillterByDate}
+        />
+        <input
+          type="text"
+          placeholder="search by title"
+          className="input"
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+          onKeyUp={fillterBySerach}
+        />
+        <select
+          className="input"
+          value={type}
+          onChange={(e) => {
+            FillterByCat(e.target.value);
+          }}
+        >
+          <option value="All">ALL</option>
+          <option value="Web Development">Web Development </option>
+          <option value="Mobile Development">Mobile Development</option>
+          <option value="Frontend Development">Frontend Development </option>
+          <option value="Backend  Development">Backend Development</option>
+          <option value="UX/UI Design ">UX/UI Design</option>
+          <option value="Data Science">Data Science</option>
+          <option value="Full Stack Development">Full Stack Development</option>
+          <option value="Artificial Intelligence">
+            Artificial Intelligence
+          </option>
+          <option value="Machine Learning"> Machine Learning</option>
+        </select>
+      </div>
       {data.map((event) => {
         return (
           <div className="searchItem">
             <img src={event.photo} alt="" className="siImg" />
-            <div className="siDesc">
-              <h1 className="siTitle">{event.title}</h1>
-              <span className="siDistance">Learn anywhere</span>
-              <span className="siTaxiOp">
-                {" "}
-                {moment(event.createdAt).format("MMM DD yyyy")}
+            <div className="Desc">
+              <h1 className="Title">{event.title}</h1>
+              <span className="qoutes">
+                grow your knowledge with new trending technologies{" "}
               </span>
-              <span className="siSubtitle">{event.breifDescription}</span>
+              <span className="eventdate">
+                <b>
+                  Event will be start
+                  {moment(event.finaldate).format("MMM DD yyyy")}
+                </b>
+                <br />
+              </span>
+              <span className="Subtitles">{event.breifDescription}</span>
 
-              <span className="siCancelOp">Free cancellation </span>
-              <span className="siCancelOpSubtitle">
+              <span className="cancels">free cancellation </span>
+              <span className="cancel">
                 You can cancel later, so lock in this great price today!
-                {/* {`eventInfo/${event._id}` */}
               </span>
             </div>
-            <div className="siDetails">
-              <div className="siRating">
-                <span>Excellent</span>
-                <button>8.9</button>
-              </div>
-              <div className="siDetailTexts">
+            <div className="Details">
+              <div className="price">
                 <span className="siPrice">{event.price}</span>
-                <span className="siTaxOp">Includes taxes and fees</span>
+              </div>
+              <div className="DetailTexts">
+                <span className="smalldec">Grab your opputunities today</span>
                 <button className="siCheckButton">
-                  <Link to={`eventinfo/${event._id}`}>See booking</Link>
+                  <Link to={`eventinfo/${event._id}`}>Click to see more</Link>
                 </button>
               </div>
             </div>

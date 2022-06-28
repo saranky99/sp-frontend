@@ -3,6 +3,7 @@ import "./UserRegister.css";
 import { Link } from "react-router-dom";
 import ing from "../assets/ing.png";
 import { message } from "antd";
+
 const UserRegister = ({ history }) => {
   const [role, setRole] = useState("");
   const [username, setUsername] = useState("");
@@ -118,7 +119,7 @@ const UserRegister = ({ history }) => {
               <input
                 type="password"
                 name="Confirmpassword"
-                placeholder="Enter Confirm Password"
+                placeholder=" Confirm Password"
                 value={confirmpassword}
                 onChange={(e) => setConfrimpassword(e.target.value)}
               />

@@ -52,10 +52,6 @@ class StudentDefaultLayout extends React.Component {
               <Link to="/getallevents"> Events</Link>
             </Menu.Item>
 
-            <Menu.Item key="/appliedEvent" icon={<CheckOutlined />}>
-              <Link to="/appliedEvent"> AppliedEvents</Link>
-            </Menu.Item>
-
             <Menu.Item
               key="/getalljobs"
               icon={<FundProjectionScreenOutlined />}
@@ -76,7 +72,7 @@ class StudentDefaultLayout extends React.Component {
             </Menu.Item>
 
             <Menu.Item key="/postBlog" icon={<EditOutlined />}>
-              <Link to="/postBlog"> PostBlog</Link>
+              <Link to="/bloghomepage"> Blog</Link>
             </Menu.Item>
 
             <Menu.Item key="/postedBlog" icon={<CheckOutlined />}>
@@ -110,7 +106,7 @@ class StudentDefaultLayout extends React.Component {
               >
                 <h5 className="mr-2">
                   <Avatar src="https://joeschmoe.io/api/v1/random" />
-                  <b>{data.username}</b>
+                
                 </h5>
               </div>
             </div>

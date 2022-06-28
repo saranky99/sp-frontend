@@ -20,11 +20,29 @@ const PostedEvent = () => {
       });
   }, []);
 
-  console.log(data.eventappliedcandaitedIds);
+  // const id = data[0]._id;
+  const deleteEvent = (id) => {
+    fetch("/api/event/deleteevent/" + id, {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => console.log(json));
+  };
+
   return (
     <div>
       <CompanyDefaultLayout>
-        <h1>PostedEvents</h1>
+        <h1
+          style={{
+            color: "#0071c2",
+            fontWeight: "bold",
+          }}
+        >
+          PostedEvents
+        </h1>
 
         <table>
           <tr>
@@ -32,7 +50,6 @@ const PostedEvent = () => {
             <th>Title</th>
             <th>PostedOn</th>
             <th>Categories</th>
-            <th>AppliedCandaited</th>
             <th>Action</th>
           </tr>
           {data.map((event) => {
@@ -42,15 +59,14 @@ const PostedEvent = () => {
                 <td>{event.title}</td>
                 <td> {moment(event.createdAt).format("MMM DD yyyy")}</td>
                 <td>{event.category}</td>
-                <td>{event.eventappliedcandaitedIds.length}</td>
+
                 <td>
                   <Link to={`eventedit/${event._id}`}>
-                    {" "}
                     <BsFillPencilFill />
                   </Link>
 
-                  <Link to={`eventedit/${event._id}`}>
-                    <BsFillTrashFill />
+                  <Link>
+                    <BsFillTrashFill onClick={() => deleteEvent(event._id)} />
                   </Link>
                 </td>
               </tr>
